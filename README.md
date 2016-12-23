@@ -2,4 +2,4 @@
 Required Libraries (Using PlatformIO)  
 
 1: Arduino (This is installed when you init a platform for ESP8266)  
-2: Adifruit DHT Library
+2: Adafruit DHT Library
