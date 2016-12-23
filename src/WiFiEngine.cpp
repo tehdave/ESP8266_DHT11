@@ -138,6 +138,6 @@ void WiFiEngine::getDHT11Data(void) {
   }
 }
 
-void handleTraffic(void) {
+void WiFiEngine::handleTraffic(void) {
   server.handleClient();
 }
