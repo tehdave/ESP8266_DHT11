@@ -61,7 +61,7 @@ void WiFiEngine::StartWiFiEngine(void) {
 void WiFiEngine::handleRoot(void) {
     getDHT11Data();
 
-    htmlBody+= "                <div class=\"ui-grid-a\">\n";
+    htmlBody = "                <div class=\"ui-grid-a\">\n";
     htmlBody+= "                    <div class=\"ui-block-a\">\n";
     htmlBody+= "                        <span id=\"lblTemperature\">Current Temperature:</span>\n";
     htmlBody+= "                    </div>\n";
@@ -82,7 +82,7 @@ void WiFiEngine::handleRoot(void) {
 void WiFiEngine::handleTemp(void) {
   getDHT11Data();
 
-  htmlBody+= "                <div class=\"ui-grid-a\">\n";
+  htmlBody = "                <div class=\"ui-grid-a\">\n";
   htmlBody+= "                    <div class=\"ui-block-a\">\n";
   htmlBody+= "                        <span id=\"lblTemperature\">Current Temperature:</span>\n";
   htmlBody+= "                    </div>\n";
@@ -97,7 +97,7 @@ void WiFiEngine::handleTemp(void) {
 void WiFiEngine::handleHumidity(void) {
   getDHT11Data();
 
-  htmlBody+= "                <div class=\"ui-grid-a\">\n";
+  htmlBody = "                <div class=\"ui-grid-a\">\n";
   htmlBody+= "                    <div class=\"ui-block-a\">\n";
   htmlBody+= "                        <span id=\"lblHumidity\">Current Humidity:</span>\n";
   htmlBody+= "                    </div>\n";
