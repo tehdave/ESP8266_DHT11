@@ -21,7 +21,7 @@ WiFiEngine::WiFiEngine() {
   htmlBodyStart = "    <body>\n";
   htmlBodyStart+= "        <div data-role=\"page\" id=\"page1\">\n";
   htmlBodyStart+= "            <div data-role=\"header\" id=\"hdrSiteHeader\">\n";
-  htmlBodyStart+= "                <h1>ESP8266 DHT11 Sensor</h1>\n";
+  htmlBodyStart+= "                <h1>ESP8266 WebServer</h1>\n";
   htmlBodyStart+= "            </div>\n";
   htmlBodyStart+= "            <div data-role=\"content\">\n";
 
@@ -34,7 +34,6 @@ WiFiEngine::WiFiEngine() {
  }
 
 void WiFiEngine::StartWiFiEngine(void) {
-
   // Set the ESP8266 to STATION MODE.
   WiFi.mode(WIFI_STA);
 
@@ -54,15 +53,22 @@ void WiFiEngine::StartWiFiEngine(void) {
   Serial.println("Setting endpoint handlers...");
   // Handlers for endpoints.
   server.on("/", std::bind(&WiFiEngine::handleRoot, this));             // Handle /
-  server.on("/temp", std::bind(&WiFiEngine::handleTemp, this));         // Handle /temp
-  server.on("/humi", std::bind(&WiFiEngine::handleHumidity, this));     // Handle /humi
+  server.on("/dht", std::bind(&WiFiEngine::handleDHTRoot, this));
+  server.on("/dht/temp", std::bind(&WiFiEngine::handleDHTTemp, this));         // Handle /temp
+  server.on("/dht/humi", std::bind(&WiFiEngine::handleDHTHumidity, this));     // Handle /humi
   server.on("/help", std::bind(&WiFiEngine::handleHelp, this));         // Handle /help
   Serial.println("Endpoint handlers set...");
   server.begin();
 }
 
 void WiFiEngine::handleRoot(void) {
-    Serial.println("handleRoot called...");
+  htmlBody = "                <div class=\"ui-grid-a\">\n";
+  htmlBody+= "                </div>\n";
+
+  server.send(200, mimeHTML, htmlHeader+htmlBodyStart+htmlBody+htmlBodyEnd+htmlFooter);
+}
+
+void WiFiEngine::handleDHTRoot(void) {
     getDHT11Data();
 
     htmlBody = "                <div class=\"ui-grid-a\">\n";
@@ -83,7 +89,7 @@ void WiFiEngine::handleRoot(void) {
     server.send(200, mimeHTML, htmlHeader+htmlBodyStart+htmlBody+htmlBodyEnd+htmlFooter);
 }
 
-void WiFiEngine::handleTemp(void) {
+void WiFiEngine::handleDHTTemp(void) {
   getDHT11Data();
 
   htmlBody = "                <div class=\"ui-grid-a\">\n";
@@ -98,7 +104,7 @@ void WiFiEngine::handleTemp(void) {
   server.send(200, mimeHTML, htmlHeader+htmlBodyStart+htmlBody+htmlBodyEnd+htmlFooter);
 }
 
-void WiFiEngine::handleHumidity(void) {
+void WiFiEngine::handleDHTHumidity(void) {
   getDHT11Data();
 
   htmlBody = "                <div class=\"ui-grid-a\">\n";

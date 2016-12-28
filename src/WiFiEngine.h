@@ -27,8 +27,11 @@ private:
   void getDHT11Data(void);
 
   void handleRoot();
-  void handleTemp();
-  void handleHumidity();
+
+  void handleDHTRoot();
+  void handleDHTTemp();
+  void handleDHTHumidity();
+
   void handleHelp();
 
 public:
