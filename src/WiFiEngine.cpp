@@ -6,32 +6,7 @@
 ESP8266WebServer server(80);
 DHT dht(DHTPIN, DHTTYPE, 11);
 
-WiFiEngine::WiFiEngine() { }
-
-void WiFiEngine::StartWiFiEngine(void) {
-
-  // Set the ESP8266 to STATION MODE.
-  WiFi.mode(WIFI_STA);
-
-  // Connect as soon as we are created.
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-
-  // Print out some info on the Serial Line if we're connected.
-  Serial.println("");
-  Serial.println("WiFi connected to WIFI AP: "+(String)ssid);
-  Serial.println("IP address: "+(String)WiFi.localIP());
-
-  // Handlers for endpoints.
-  server.on("/", std::bind(&WiFiEngine::handleRoot, this));             // Handle /
-  server.on("/data", std::bind(&WiFiEngine::handleRoot, this));         // Handle /data
-  server.on("/temp", std::bind(&WiFiEngine::handleTemp, this));         // Handle /temp
-  server.on("/humi", std::bind(&WiFiEngine::handleHumidity, this));     // Handle /humi
-  server.on("/help", std::bind(&WiFiEngine::handleHelp, this));         // Handle /help
-
+WiFiEngine::WiFiEngine() {
   // While we're here, build the majority of the html
   htmlHeader = "<!DOCTYPE html>\n";
   htmlHeader+= "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
@@ -56,9 +31,38 @@ void WiFiEngine::StartWiFiEngine(void) {
   htmlBodyEnd+= "</html>";
 
   htmlFooter += "";
+ }
+
+void WiFiEngine::StartWiFiEngine(void) {
+
+  // Set the ESP8266 to STATION MODE.
+  WiFi.mode(WIFI_STA);
+
+  // Connect as soon as we are created.
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  // Print out some info on the Serial Line if we're connected.
+  Serial.println("");
+  Serial.println("WiFi connected to WIFI AP: "+(String)ssid);
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  Serial.println("Setting endpoint handlers...");
+  // Handlers for endpoints.
+  server.on("/", std::bind(&WiFiEngine::handleRoot, this));             // Handle /
+  server.on("/temp", std::bind(&WiFiEngine::handleTemp, this));         // Handle /temp
+  server.on("/humi", std::bind(&WiFiEngine::handleHumidity, this));     // Handle /humi
+  server.on("/help", std::bind(&WiFiEngine::handleHelp, this));         // Handle /help
+  Serial.println("Endpoint handlers set...");
+  server.begin();
 }
 
 void WiFiEngine::handleRoot(void) {
+    Serial.println("handleRoot called...");
     getDHT11Data();
 
     htmlBody = "                <div class=\"ui-grid-a\">\n";

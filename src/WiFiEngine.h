@@ -9,7 +9,7 @@
 class WiFiEngine {
 private:
   const char* ssid     = "SSID";
-  const char* password = "PASS";
+  const char* password = "PASSWORD";
   const char* mimeTEXT = "text/plain";
   const char* mimeHTML = "text/html";
 
@@ -19,20 +19,22 @@ private:
   String htmlBodyEnd="";
   String htmlBody="";
   String htmlFooter="";
-  
+
   unsigned long previousMillis = 0;       // will store last temp was read
   const long interval = 2000;             // interval at which to read sensor
 
   // Private Methods
   void getDHT11Data(void);
-public:
-  WiFiEngine();
-  void StartWiFiEngine();
-  void StopWiFiEngine();
+
   void handleRoot();
   void handleTemp();
   void handleHumidity();
   void handleHelp();
+
+public:
+  WiFiEngine();
+  void StartWiFiEngine();
+  void StopWiFiEngine();
   void handleTraffic();
 };
 #endif
